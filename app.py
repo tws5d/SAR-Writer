@@ -85,7 +85,8 @@ if st.button("Generate SAR Intro"):
                         errors="coerce"
                     ).sum()
                 )
-                paragraph += f'. On {date_a}, {surname} conducted {tx_count} transactions totaling ${tx_total:,.2f}.'
+                tx_word = "transaction" if tx_count == 1 else "transactions"
+                paragraph += f'. On {date_a}, {surname} conducted {tx_count} {tx_word} totaling ${tx_total:,.2f}.'
             else:
                 paragraph += f'. Between {date_a} and {date_b}.'
         else:
