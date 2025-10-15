@@ -8,6 +8,14 @@ reason_no_purpose = st.checkbox("No reasonable economic, business, or lawful pur
 
 uploaded_file = st.file_uploader("Upload an Excel or CSV file", type=["xlsx", "csv"])
 
+import pandas as pd
+
+if uploaded_file:
+    df = pd.read_csv(uploaded_file)
+    st.write("✅ File loaded successfully!")
+    st.write(df.head())
+    st.write("Columns detected:", list(df.columns))
+
 if st.button("Generate SAR Intro"):
     st.subheader("Generated SAR Intro")
 
@@ -36,10 +44,16 @@ if st.button("Generate SAR Intro"):
         customer_name = None
 
     if customer_name or reasons:
-        paragraph += f'Our Bank is filing this Suspicious Activity Report (SAR) on {customer_name or "[Customer Name Unavailable]"} ("Surname")'
+        # --- build opening sentence with surname in parentheses ---
+        if customer_name and " " in customer_name:
+            parts = customer_name.split()
+            last_name = parts[-1]
+            paragraph += f'Our Bank is filing this Suspicious Activity Report (SAR) on {customer_name} ("{last_name}")'
+        else:
+            paragraph += f'Our Bank is filing this Suspicious Activity Report (SAR) on {customer_name or "[Customer Name Unavailable]"}'
 
+        # --- add reasons ---
         if reasons:
-            # Build reason text with "the" only before reasons that should have it
             formatted_reasons = []
             for r in reasons:
                 if r.startswith("rapid"):
