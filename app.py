@@ -39,15 +39,15 @@ if st.button("Generate SAR Intro"):
         paragraph += f'Our Bank is filing this Suspicious Activity Report (SAR) on {customer_name or "[Customer Name Unavailable]"}'
 
         if reasons:
-            # build natural-sounding English for reasons
+            # add "the" before the final reason only
             if len(reasons) == 1:
                 reason_text = reasons[0]
             elif len(reasons) == 2:
-                reason_text = " and ".join(reasons)
+                reason_text = f'{reasons[0]}, the {reasons[1]}'
             else:
-                reason_text = ", ".join(reasons[:-1]) + ", and " + reasons[-1]
+                reason_text = ", ".join(reasons[:-1]) + f", and the {reasons[-1]}"
 
-            paragraph += f' due to the {reason_text}.'
+            paragraph += f' due to {reason_text}.'
         else:
             paragraph += '.'
     else:
