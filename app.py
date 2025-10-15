@@ -29,22 +29,56 @@ if st.button("Generate SAR Intro"):
         reasons.append("no reasonable economic, business, or lawful purpose")
 
     paragraph = ""
+
     if uploaded_file:
         import pandas as pd
         try:
+            # --- Read file only once ---
+            uploaded_file.seek(0)
             if uploaded_file.name.endswith(".csv"):
                 df = pd.read_csv(uploaded_file)
             else:
                 df = pd.read_excel(uploaded_file)
-            customer_name = str(df.iloc[0, 5])
+
+            # --- pull customer name from column ---
+            customer_name = str(df["Customer Name"].iloc[0])
+
+            # --- get min and max from Transaction Date ---
+            date_col = pd.to_datetime(df["Transaction Date"], errors="coerce").dropna()
+            if not date_col.empty:
+                date_a = date_col.min().strftime("%B %d, %Y")
+                date_b = date_col.max().strftime("%B %d, %Y")
+            else:
+                date_a = date_b = None
+
         except Exception as e:
             st.error(f"Error reading file: {e}")
             customer_name = None
+            date_a = date_b = None
     else:
         customer_name = None
+        date_a = date_b = None
 
     if customer_name or reasons:
         paragraph += f'Our Bank is filing this Suspicious Activity Report (SAR) on {customer_name or "[Customer Name Unavailable]"}'
 
         if reasons:
             formatted_reasons = []
+            for r in reasons:
+                if r.startswith("rapid"):
+                    formatted_reasons.append(f"the {r}")
+                else:
+                    formatted_reasons.append(r)
+
+            if len(formatted_reasons) == 1:
+                reason_text = formatted_reasons[0]
+            elif len(formatted_reasons) == 2:
+                reason_text = f"{formatted_reasons[0]}, and {formatted_reasons[1]}"
+            else:
+                reason_text = ", ".join(formatted_reasons[:-1]) + f", and {formatted_reasons[-1]}"
+
+            paragraph += f' due to {reason_text}'
+        else:
+            paragraph += '.'
+
+        if date_a and date_b
