@@ -9,8 +9,8 @@ reason_no_purpose = st.checkbox("No reasonable economic, business, or lawful pur
 uploaded_file = st.file_uploader("Upload an Excel or CSV file", type=["xlsx", "csv"])
 
 if st.button("Generate SAR Intro"):
-    st.subheader("Generated SAR Intro")
-    paragraph = "This SAR filing is based on observed activity that raised concerns regarding potential illicit financial behavior."
+    st.subheader("Generate SAR Intro")
+    paragraph = ""
     
     reasons = []
     if reason_source:
