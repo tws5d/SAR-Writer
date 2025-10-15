@@ -29,18 +29,19 @@ if st.button("Generate SAR Intro"):
         reasons.append("no reasonable economic, business, or lawful purpose")
 
     paragraph = ""
+    date_a = date_b = None
 
     if uploaded_file:
         import pandas as pd
         try:
-            # --- Read file only once ---
+            # always reset file pointer before reading
             uploaded_file.seek(0)
             if uploaded_file.name.endswith(".csv"):
                 df = pd.read_csv(uploaded_file)
             else:
                 df = pd.read_excel(uploaded_file)
 
-            # --- pull customer name from column ---
+            # --- pull fields by name ---
             customer_name = str(df["Customer Name"].iloc[0])
 
             # --- get min and max from Transaction Date ---
@@ -48,16 +49,11 @@ if st.button("Generate SAR Intro"):
             if not date_col.empty:
                 date_a = date_col.min().strftime("%B %d, %Y")
                 date_b = date_col.max().strftime("%B %d, %Y")
-            else:
-                date_a = date_b = None
-
         except Exception as e:
             st.error(f"Error reading file: {e}")
             customer_name = None
-            date_a = date_b = None
     else:
         customer_name = None
-        date_a = date_b = None
 
     if customer_name or reasons:
         paragraph += f'Our Bank is filing this Suspicious Activity Report (SAR) on {customer_name or "[Customer Name Unavailable]"}'
@@ -81,4 +77,12 @@ if st.button("Generate SAR Intro"):
         else:
             paragraph += '.'
 
-        if date_a and date_b
+        # --- add date range if available ---
+        if date_a and date_b:
+            paragraph += f' between {date_a} and {date_b}.'
+        else:
+            paragraph += '.'
+    else:
+        paragraph = "No information available yet."
+
+    st.write(paragraph)
