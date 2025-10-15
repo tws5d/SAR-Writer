@@ -21,6 +21,6 @@ if st.button("Generate SAR Intro"):
         reasons.append("no reasonable economic, business, or lawful purpose")
     
     if reasons:
-        paragraph += " The filing is primarily due to " + ", ".join(reasons) + "."
+        paragraph += f' Our Bank is filing this Suspicious Activity Report (SAR) on {customer_name or "[Customer Name Unavailable]"} due to {", ".join(reasons)}.'
     
     st.write(paragraph)
