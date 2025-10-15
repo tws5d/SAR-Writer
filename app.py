@@ -50,7 +50,8 @@ if st.button("Generate SAR Intro"):
         customer_name = None
 
     if customer_name or reasons:
-        paragraph += f'Our Bank is filing this Suspicious Activity Report (SAR) on {customer_name or "[Customer Name Unavailable]"}'
+        surname = customer_name.split()[-1] if customer_name else "[Customer Name Unavailable]"
+        paragraph += f'Our Bank is filing this Suspicious Activity Report (SAR) on {customer_name or "[Customer Name Unavailable]"} ("{surname}")'
 
         if reasons:
             formatted_reasons = []
