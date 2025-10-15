@@ -77,7 +77,8 @@ if st.button("Generate SAR Intro"):
             if date_a == date_b:
                 # Count distinct Transaction ID and sum Transaction Amount
                 tx_count = df["Transaction ID"].nunique()
-                tx_total = df["Transaction Amount"].sum()
+                # Convert to numeric safely and ignore bad data
+                tx_total = pd.to_numeric(df["Transaction Amount"], errors="coerce").sum()
                 paragraph += f'. On {date_a}, {surname} conducted {tx_count} transactions totaling ${tx_total:,.2f}.'
             else:
                 paragraph += f'. Between {date_a} and {date_b}.'
