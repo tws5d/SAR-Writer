@@ -75,12 +75,15 @@ if st.button("Generate SAR Intro"):
         # --- add date range if available ---
         if date_a and date_b:
             if date_a == date_b:
-                paragraph += f'. On {date_a}.'
+                # Count distinct Transaction ID and sum Transaction Amount
+                tx_count = df["Transaction ID"].nunique()
+                tx_total = df["Transaction Amount"].sum()
+                paragraph += f'. On {date_a}, {surname} conducted {tx_count} transactions totaling ${tx_total:,.2f}.'
             else:
                 paragraph += f'. Between {date_a} and {date_b}.'
         else:
             paragraph += '.'
-        
+              
     else:
         paragraph = "No information available yet."
 
