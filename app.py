@@ -54,4 +54,10 @@ if st.button("Generate SAR Intro"):
             else:
                 reason_text = ", ".join(formatted_reasons[:-1]) + f", and {formatted_reasons[-1]}"
 
-            paragraph += f' due t
+            paragraph += f' due to {reason_text}.'
+        else:
+            paragraph += '.'
+    else:
+        paragraph = "No information available yet."
+
+    st.write(paragraph)
