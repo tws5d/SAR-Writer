@@ -39,18 +39,19 @@ if st.button("Generate SAR Intro"):
         paragraph += f'Our Bank is filing this Suspicious Activity Report (SAR) on {customer_name or "[Customer Name Unavailable]"}'
 
         if reasons:
-            # add "the" before the final reason only
-            if len(reasons) == 1:
-                reason_text = reasons[0]
-            elif len(reasons) == 2:
-                reason_text = f'{reasons[0]}, the {reasons[1]}'
+            # Build reason text with "the" only before reasons that should have it
+            formatted_reasons = []
+            for r in reasons:
+                if r.startswith("rapid"):
+                    formatted_reasons.append(f"the {r}")
+                else:
+                    formatted_reasons.append(r)
+
+            if len(formatted_reasons) == 1:
+                reason_text = formatted_reasons[0]
+            elif len(formatted_reasons) == 2:
+                reason_text = f"{formatted_reasons[0]}, and {formatted_reasons[1]}"
             else:
-                reason_text = ", ".join(reasons[:-1]) + f", and the {reasons[-1]}"
+                reason_text = ", ".join(formatted_reasons[:-1]) + f", and {formatted_reasons[-1]}"
 
-            paragraph += f' due to {reason_text}.'
-        else:
-            paragraph += '.'
-    else:
-        paragraph = "No information available yet."
-
-    st.write(paragraph)
+            paragraph += f' due t
