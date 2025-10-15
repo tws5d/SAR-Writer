@@ -74,9 +74,13 @@ if st.button("Generate SAR Intro"):
 
         # --- add date range if available ---
         if date_a and date_b:
-            paragraph += f' Between {date_a} and {date_b}.'
+            if date_a == date_b:
+                paragraph += f' on {date_a}.'
+            else:
+                paragraph += f' between {date_a} and {date_b}.'
         else:
             paragraph += '.'
+        
     else:
         paragraph = "No information available yet."
 
