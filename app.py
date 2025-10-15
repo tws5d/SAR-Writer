@@ -44,34 +44,7 @@ if st.button("Generate SAR Intro"):
         customer_name = None
 
     if customer_name or reasons:
-        # --- build opening sentence with surname in parentheses ---
-        if customer_name and " " in customer_name:
-            parts = customer_name.split()
-            last_name = parts[-1]
-            paragraph += f'Our Bank is filing this Suspicious Activity Report (SAR) on {customer_name} ("{last_name}")'
-        else:
-            paragraph += f'Our Bank is filing this Suspicious Activity Report (SAR) on {customer_name or "[Customer Name Unavailable]"}'
+        paragraph += f'Our Bank is filing this Suspicious Activity Report (SAR) on {customer_name or "[Customer Name Unavailable]"}'
 
-        # --- add reasons ---
         if reasons:
             formatted_reasons = []
-            for r in reasons:
-                if r.startswith("rapid"):
-                    formatted_reasons.append(f"the {r}")
-                else:
-                    formatted_reasons.append(r)
-
-            if len(formatted_reasons) == 1:
-                reason_text = formatted_reasons[0]
-            elif len(formatted_reasons) == 2:
-                reason_text = f"{formatted_reasons[0]}, and {formatted_reasons[1]}"
-            else:
-                reason_text = ", ".join(formatted_reasons[:-1]) + f", and {formatted_reasons[-1]}"
-
-            paragraph += f' due to {reason_text}.'
-        else:
-            paragraph += '.'
-    else:
-        paragraph = "No information available yet."
-
-    st.write(paragraph)
