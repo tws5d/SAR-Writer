@@ -23,18 +23,31 @@ if st.button("Generate SAR Intro"):
     paragraph = ""
     if uploaded_file:
         import pandas as pd
-        if uploaded_file.name.endswith(".csv"):
-            df = pd.read_csv(uploaded_file)
-        else:
-            df = pd.read_excel(uploaded_file)
-        customer_name = str(df.iloc[0, 5])
+        try:
+            if uploaded_file.name.endswith(".csv"):
+                df = pd.read_csv(uploaded_file)
+            else:
+                df = pd.read_excel(uploaded_file)
+            customer_name = str(df.iloc[0, 5])
+        except Exception as e:
+            st.error(f"Error reading file: {e}")
+            customer_name = None
     else:
         customer_name = None
 
     if customer_name or reasons:
         paragraph += f'Our Bank is filing this Suspicious Activity Report (SAR) on {customer_name or "[Customer Name Unavailable]"}'
+
         if reasons:
-            paragraph += f' due to {", ".join(reasons)}.'
+            # build natural-sounding English for reasons
+            if len(reasons) == 1:
+                reason_text = reasons[0]
+            elif len(reasons) == 2:
+                reason_text = " and ".join(reasons)
+            else:
+                reason_text = ", ".join(reasons[:-1]) + ", and " + reasons[-1]
+
+            paragraph += f' due to the {reason_text}.'
         else:
             paragraph += '.'
     else:
