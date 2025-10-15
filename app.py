@@ -10,12 +10,6 @@ uploaded_file = st.file_uploader("Upload an Excel or CSV file", type=["xlsx", "c
 
 import pandas as pd
 
-if uploaded_file:
-    df = pd.read_csv(uploaded_file)
-    st.write("✅ File loaded successfully!")
-    st.write(df.head())
-    st.write("Columns detected:", list(df.columns))
-
 if st.button("Generate SAR Intro"):
     st.subheader("Generated SAR Intro")
 
