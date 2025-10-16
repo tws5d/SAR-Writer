@@ -87,6 +87,19 @@ if st.button("Generate SAR Intro"):
                 )
                 tx_word = "transaction" if tx_count == 1 else "transactions"
                 paragraph += f'. On {date_a}, {surname} conducted {tx_count} {tx_word} totaling ${tx_total:,.2f}.'
+                
+                acct_number = str(df["Account Number"].iloc[0]).strip()
+                if acct_number.startswith("4"):
+                    acct_type = "checking"
+                elif acct_number.startswith("3"):
+                    acct_type = "savings"
+                elif acct_number.startswith("2"):
+                    acct_type = "investment"
+                else:
+                    acct_type = "account type unknown"
+
+                paragraph += f" The suspicious activity occurred in our bank's {acct_type} account #{acct_number}."
+                            
             else:
                 paragraph += f'. Between {date_a} and {date_b}.'
         else:
