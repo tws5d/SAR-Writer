@@ -90,11 +90,11 @@ if st.button("Generate SAR Intro"):
                 
                 acct_number = str(df["Account Number"].iloc[0]).strip()
                 if acct_number.startswith("4"):
-                    acct_type = "checking"
+                    acct_type = "Checking"
                 elif acct_number.startswith("3"):
-                    acct_type = "savings"
+                    acct_type = "Savings"
                 elif acct_number.startswith("2"):
-                    acct_type = "investment"
+                    acct_type = "Invest"
                 else:
                     acct_type = "account type unknown"
 
