@@ -98,7 +98,7 @@ if st.button("Generate SAR Intro"):
                 else:
                     acct_type = "account type unknown"
 
-                paragraph += f" The suspicious activity occurred in our bank's {acct_type} account #{acct_number}."
+                paragraph += f" The suspicious activity occurred in our bank's {acct_type} account #{acct_number}, which was opened on INSERT OPENING DATE and closed on INSERT CLOSE DATE."
                             
             else:
                 paragraph += f'. Between {date_a} and {date_b}.'
